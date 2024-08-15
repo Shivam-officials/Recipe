@@ -1,4 +1,4 @@
-package com.shivam.recipe.presentation
+package com.shivam.recipe.presentation.homeScreen
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.shivam.recipe.R
 import com.shivam.recipe.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
 
-    private val _binding : FragmentHomeBinding? = null
-    private var binding :FragmentHomeBinding  = _binding!!
+    private var _binding : FragmentHomeBinding? = null
+    private val binding :FragmentHomeBinding get() =  _binding!!
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -25,9 +24,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRecipeFragment2())
-        }
+
         // TODO: Use the ViewModel
     }
 
@@ -36,7 +33,12 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 //        return inflater.inflate(R.layout.fragment_home, container, false)
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRecipeFragment2())
+        }
+
         return binding.root
     }
 }

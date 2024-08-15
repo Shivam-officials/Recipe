@@ -1,4 +1,4 @@
-package com.shivam.recipe.presentation
+package com.shivam.recipe.presentation.addRecipeScreen
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle

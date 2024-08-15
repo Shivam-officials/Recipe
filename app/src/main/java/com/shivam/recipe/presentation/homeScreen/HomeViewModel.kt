@@ -1,7 +1,6 @@
-package com.shivam.recipe.presentation
+package com.shivam.recipe.presentation.homeScreen
 
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 //@HiltViewModel
 class HomeViewModel : ViewModel() {

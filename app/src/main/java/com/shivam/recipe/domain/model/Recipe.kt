@@ -1,4 +1,4 @@
-package com.shivam.recipe.domain
+package com.shivam.recipe.domain.model
 
 import com.google.firebase.firestore.DocumentId
 
@@ -10,5 +10,7 @@ data class Recipe(
     val userId:String? = null,
     var ingredient:String? = null,
     var steps:String? = null,
-    val imageUrls:String? = null
+    val imageUrls:String? = null,
+    var category:String? = null,
+ var time:String? = null
 )

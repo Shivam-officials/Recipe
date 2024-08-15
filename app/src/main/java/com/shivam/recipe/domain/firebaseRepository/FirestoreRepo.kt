@@ -1,13 +1,13 @@
-package com.shivam.recipe.domain.firebaseServices
+package com.shivam.recipe.domain.firebaseRepository
 
-import com.shivam.recipe.domain.Recipe
+import com.shivam.recipe.domain.model.Recipe
 
 interface FirestoreRepo {
 
-    fun getRecipeDetail(recipeId:String): Recipe?
-    fun getAllRecipes(): List<Recipe>
-    fun saveRecipe(recipe: Recipe)
-    fun upDateRecipe(recipe: Recipe)
-    fun deleteRecipe(recipe: Recipe)
+   suspend fun getRecipeDetail(recipeId:String): Recipe?
+   suspend fun getAllRecipes(): List<Recipe>
+   suspend fun saveRecipe(recipe: Recipe)
+   suspend fun upDateRecipe(recipe: Recipe)
+   suspend fun deleteRecipe(recipe: Recipe)
 
 }

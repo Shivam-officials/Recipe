@@ -1,4 +1,4 @@
-package com.shivam.recipe.presentation
+package com.shivam.recipe.presentation.addRecipeScreen
 
 import androidx.lifecycle.ViewModel
 
