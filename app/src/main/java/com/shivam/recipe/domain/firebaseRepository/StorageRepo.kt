@@ -1,9 +1,8 @@
 package com.shivam.recipe.domain.firebaseRepository
 
-import android.net.Uri
-
 interface StorageRepo {
-  suspend  fun getRecipeImageUrl(recipeId: String): String?
-   suspend  fun updateRecipeImage(recipeId: String,uri: Uri)
-   suspend fun deleteRecipeImage(recipeId: String)
+  suspend  fun getRecipeImageUrl(imageFireStorageId: String): String?
+   suspend  fun updateRecipeImage(imageFireStorageId: String, uri: String)
+   suspend fun deleteRecipeImage(imageFireStorageId: String)
+   suspend fun saveRecipeImage(uri: String):String?
 }

@@ -1,5 +1,6 @@
 package com.shivam.recipe.data.repositoryImpl
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.shivam.recipe.domain.model.Recipe
@@ -29,8 +30,8 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
         }
     }
 
-    override suspend fun saveRecipe(recipe: Recipe) {
-        recipeCollectionRef.add(recipe).await()
+    override suspend fun saveRecipe(recipe: Recipe):String {
+       return recipeCollectionRef.add(recipe).await().id
 
     }
 
@@ -44,6 +45,8 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
         recipeCollectionRef.document(recipe.recipeId!!).delete().await()
 
     }
+
+
 
 
 }

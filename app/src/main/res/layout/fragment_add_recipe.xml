@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.shivam.recipe.presentation.addRecipeScreen.AddRecipeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,12 +22,12 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_marginTop="32dp"
+            android:imageUri="@{viewModel.imageUri}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/meal_food_icon"
-            app:tint="@color/purple_500" />
+            app:srcCompat="@drawable/meal_food_icon" />
 
         <EditText
             android:id="@+id/recipe_name"
@@ -34,9 +37,12 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/data_enter_edit_text_background"
             android:ems="10"
+            android:gravity="center"
             android:hint="Recipe name"
             android:inputType="text"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.setRecipeName(text.toString())}"
             android:padding="8dp"
+            android:text="@{viewModel.recipeName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +56,12 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/data_enter_edit_text_background"
             android:ems="10"
+            android:gravity="center"
             android:hint="Recipe category"
             android:inputType="text"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.setRecipeCategory(text.toString())}"
             android:padding="8dp"
+            android:text="@{viewModel.recipeCategory}"
             app:layout_constraintStart_toStartOf="@+id/recipe_name"
             app:layout_constraintTop_toBottomOf="@+id/recipe_name" />
 
@@ -63,9 +72,13 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/data_enter_edit_text_background"
             android:ems="10"
+            android:gravity="center"
             android:hint="Time"
             android:inputType="text"
-            android:padding="8dp"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.setRecipeTime(text.toString())}"
+            android:padding="12dp"
+            android:scrollbars="vertical"
+            android:text="@{viewModel.recipeTime}"
             app:layout_constraintEnd_toEndOf="@+id/recipe_name"
             app:layout_constraintTop_toBottomOf="@+id/recipe_name" />
 
@@ -74,40 +87,49 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="10dp"
             android:background="@drawable/data_enter_edit_text_background"
             android:ems="10"
-            android:hint="Recipe ingrediants"
-            android:inputType="text"
+            android:gravity="top|start"
+            android:hint="Instructions"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.setRecipeIngredients(text.toString())}"
             android:padding="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/recipe_steps"
+            android:scrollbars="vertical"
+            android:text="@{viewModel.recipeIngredients}"
+            app:layout_constraintEnd_toStartOf="@+id/recipe_instruction"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/recipe_category"
             app:layout_constraintTop_toBottomOf="@+id/recipe_time" />
 
         <EditText
-            android:id="@+id/recipe_steps"
+            android:id="@+id/recipe_instruction"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/data_enter_edit_text_background"
             android:ems="10"
-            android:hint="Recipe steps"
-            android:inputType="text"
+            android:gravity="top|start"
+            android:hint="Instructions"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.setRecipeInstructions(text.toString())}"
             android:padding="8dp"
+            android:scrollbars="vertical"
+            android:text="@{viewModel.recipeInstructions}"
             app:layout_constraintEnd_toEndOf="@+id/recipe_time"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/recipe_ingrediants"
             app:layout_constraintTop_toBottomOf="@+id/recipe_time" />
 
         <Button
-            android:id="@+id/save_recipe"
+            android:id="@+id/save_recipe_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Save recipe"
             android:backgroundTint="@color/purple_500"
-            app:layout_constraintEnd_toEndOf="@+id/recipe_steps"
+            android:text="Save recipe"
+            app:layout_constraintEnd_toEndOf="@+id/recipe_instruction"
             app:layout_constraintStart_toStartOf="@+id/recipe_ingrediants"
             app:layout_constraintTop_toBottomOf="@+id/recipe_ingrediants" />
 

@@ -6,7 +6,7 @@ interface FirestoreRepo {
 
    suspend fun getRecipeDetail(recipeId:String): Recipe?
    suspend fun getAllRecipes(): List<Recipe>
-   suspend fun saveRecipe(recipe: Recipe)
+   suspend fun saveRecipe(recipe: Recipe):String
    suspend fun upDateRecipe(recipe: Recipe)
    suspend fun deleteRecipe(recipe: Recipe)
 
