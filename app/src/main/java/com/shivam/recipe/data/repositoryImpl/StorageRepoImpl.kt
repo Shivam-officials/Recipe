@@ -6,6 +6,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.type.DateTime
 import com.shivam.recipe.domain.firebaseRepository.StorageRepo
+import com.shivam.recipe.domain.model.Recipe
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -37,10 +38,11 @@ class StorageRepoImpl @Inject constructor(
     }
 
     override suspend fun saveRecipeImage( uri: String): String? {
+
         val childId: String = UUID.randomUUID().toString() + "img.jpg"
          getStorageRef().child(childId)
             .putFile(uri.toUri()).await()
         return  childId
-
     }
+
 }

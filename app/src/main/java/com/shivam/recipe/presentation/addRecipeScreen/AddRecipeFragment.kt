@@ -36,7 +36,7 @@ class addRecipeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        return inflater.inflate(R.layout.fragment_add_recipe, container, false)
+
         _binding = FragmentAddRecipeBinding.inflate(inflater,container,false)
 
         // adding viewmodel to binding
@@ -50,7 +50,7 @@ class addRecipeFragment : Fragment() {
                 Toast.makeText(this.requireContext(), "please select an image", Toast.LENGTH_SHORT).show()
                 return@registerForActivityResult
             }
-//            binding.recipeImg.setImageURI(uri)
+            // setting image uri to image view
             viewModel.setImageUri(uri.toString())
         }
 
@@ -86,9 +86,6 @@ class addRecipeFragment : Fragment() {
 
         return binding.root
     }
-
-    
-    
 
 
 }

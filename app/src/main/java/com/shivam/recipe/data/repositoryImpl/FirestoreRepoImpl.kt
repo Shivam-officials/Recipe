@@ -30,8 +30,8 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
         }
     }
 
-    override suspend fun saveRecipe(recipe: Recipe):String {
-       return recipeCollectionRef.add(recipe).await().id
+    override suspend fun saveRecipe(recipe: Recipe): String {
+        return recipeCollectionRef.add(recipe).await().id
 
     }
 
@@ -41,12 +41,24 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
 
     }
 
+
     override suspend fun deleteRecipe(recipe: Recipe) {
         recipeCollectionRef.document(recipe.recipeId!!).delete().await()
 
     }
 
 
+    // category wise data
+    override suspend fun getDataByCategory(category: String): List<Recipe> {
+        var categoryList: MutableList<Recipe> = emptyList<Recipe>().toMutableList()
+        recipeCollectionRef.whereEqualTo("category", category.lowercase())
+            .addSnapshotListener { value, exception ->
 
-
+                for (document in value!!.documents) {
+                    val recipe = document.toObject<Recipe>()
+                    categoryList.add(recipe!!)
+                }
+            }
+        return categoryList
+    }
 }

@@ -9,5 +9,6 @@ interface FirestoreRepo {
    suspend fun saveRecipe(recipe: Recipe):String
    suspend fun upDateRecipe(recipe: Recipe)
    suspend fun deleteRecipe(recipe: Recipe)
+   suspend fun getDataByCategory(category: String): List<Recipe>
 
 }

@@ -11,9 +11,8 @@ import com.shivam.recipe.domain.firebaseRepository.FirestoreRepo
 import com.shivam.recipe.domain.firebaseRepository.StorageRepo
 import com.shivam.recipe.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,27 +20,33 @@ class AddRecipeViewModel@Inject constructor(
     private val firestoreRepo: FirestoreRepo,
     private val storageRepo: StorageRepo
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
 
     // LiveData for the image URI
     private var _imageUri = MutableLiveData<String>()
     val imageUri: LiveData<String> = _imageUri
 
+    // livedata for recipe name
     private var _recipeName = MutableLiveData<String>()
     val recipeName: LiveData<String> = _recipeName
 
+    // livedata for recipe category
     private var _recipeCategory = MutableLiveData<String>()
     val recipeCategory: LiveData<String> = _recipeCategory
 
+
+    // livedata for recipe ingredients
     private var _recipeIngredients = MutableLiveData<String>()
     val recipeIngredients: LiveData<String> = _recipeIngredients
 
+    //
     private var _recipeInstructions = MutableLiveData<String>()
     val recipeInstructions: LiveData<String> = _recipeInstructions
 
+    //
     private var _recipeTime = MutableLiveData<String>()
     val recipeTime: LiveData<String> = _recipeTime
 
+    // LiveData for the error message
     private var _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
@@ -56,8 +61,8 @@ class AddRecipeViewModel@Inject constructor(
     }
 
     // Setter for recipe details
-    fun setRecipeCategory(description: String) {
-        _recipeCategory.value = description
+    fun setRecipeCategory(category: String) {
+        _recipeCategory.value = category.lowercase(Locale.ROOT)
     }
 
     // Setter for recipe time
@@ -75,6 +80,7 @@ class AddRecipeViewModel@Inject constructor(
         _recipeInstructions.value = instructions
     }
 
+    // Function to clear the error message
     fun errorClear(){
         _error.value = null
     }
@@ -84,26 +90,29 @@ class AddRecipeViewModel@Inject constructor(
     fun saveRecipe() {
 
         var storageId :String? = null
+        var imageUrl:String? = null
         viewModelScope.launch {
             // Save the image to Firebase Storage
             storageId = storeImagetoCloudStorage(storageId)
-
             // if we have the storageId of image we will uplaod the task to fireStore
             storageId?.let {
-                saveDataToFireStore(storageId)
+                imageUrl = storageRepo.getRecipeImageUrl(storageId!!)
+                saveDataToFireStore(storageId,imageUrl)
             }
         }
 
     }
 
-    private suspend fun saveDataToFireStore(storageId: String?) {
+    // Function to save the recipe to Firestore
+    private suspend fun saveDataToFireStore(storageId: String?, imageUrl: String?) {
         val recipe = Recipe(
             recipeName = _recipeName.value,
-            category = _recipeCategory.value,
-            time = _recipeTime.value,
             ingredients = _recipeIngredients.value,
             instructions = _recipeInstructions.value,
-            imageFireStorageId = storageId
+            imageFireStorageId = storageId,
+            imageUrl = imageUrl,
+            category = _recipeCategory.value,
+            time = _recipeTime.value
         )
 
         // Save the recipe to Firestore
@@ -115,6 +124,7 @@ class AddRecipeViewModel@Inject constructor(
         }
     }
 
+    // Function to save the image to Firebase Storage
     private suspend fun storeImagetoCloudStorage(storageId: String?): String? {
         var storageId1 = storageId
         try {
