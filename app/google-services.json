@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641372668506",
+    "project_id": "recipe-46a82",
+    "storage_bucket": "recipe-46a82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641372668506:android:26c6519e217ee08f190e63",
+        "android_client_info": {
+          "package_name": "com.shivam.recipe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfE6j-Ytl7Ua_jZZFvn0pJ9Jx53S9XYBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
