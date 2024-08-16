@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId
 
 // firestore data class
 data class Recipe(
-    @DocumentId val recipeId: String? = null,
+    @DocumentId var recipeId: String? = null,
     var recipeName: String? = null,
     val userId: String? = null,
     var ingredients: String? = null,

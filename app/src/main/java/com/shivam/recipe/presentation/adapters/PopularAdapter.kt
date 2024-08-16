@@ -8,7 +8,7 @@ import com.shivam.recipe.databinding.RvPopularItemBinding
 import com.shivam.recipe.domain.model.Recipe
 import com.squareup.picasso.Picasso
 
-class PopularAdapter(private val dataList: MutableList<Recipe>):
+class PopularAdapter(private var dataList: List<Recipe>):
     RecyclerView.Adapter<PopularAdapter.ViewHolder>() {
 
         //viewholder with binding
@@ -89,6 +89,11 @@ class PopularAdapter(private val dataList: MutableList<Recipe>):
 
         }
 
+    }
+
+    fun updateDataset(newData: List<Recipe>?) {
+        dataList = newData!!
+        notifyDataSetChanged()
     }
 
 }

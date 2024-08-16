@@ -1,6 +1,7 @@
 package com.shivam.recipe.data.repositoryImpl
 
-import com.google.android.gms.tasks.Task
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.shivam.recipe.domain.model.Recipe
@@ -13,6 +14,7 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
 
     companion object {
         val COLLECTION_NAME = "Recipes"
+        val TAG = "FirestoreRepoImpl"
     }
 
     private val recipeCollectionRef = firestore.collection(COLLECTION_NAME)
@@ -23,16 +25,22 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
 
     }
 
-    override suspend fun getAllRecipes(): List<Recipe> {
+     override suspend fun getAllRecipes(): MutableLiveData<List<Recipe>> {
+        var recipeList   = MutableLiveData<List<Recipe>>()
+        val fetchedList =recipeCollectionRef.get().await().documents.mapNotNull { it.toObject(Recipe::class.java) }
+        recipeList.value = fetchedList
+         Log.d("home","the received snapshot outside of snapshotlistner ${recipeList.value}")
+         return  recipeList
 
-        return recipeCollectionRef.get().await().mapNotNull {
-            it.toObject<Recipe>()
-        }
     }
 
-    override suspend fun saveRecipe(recipe: Recipe): String {
-        return recipeCollectionRef.add(recipe).await().id
 
+
+    override suspend fun saveRecipe(recipe: Recipe): String {
+        val recipeId = recipeCollectionRef.document().id
+        recipe.recipeId = recipeId
+        recipeCollectionRef.document(recipeId).set(recipe).await()
+        return recipeId
     }
 
     override suspend fun upDateRecipe(recipe: Recipe) {
@@ -53,12 +61,15 @@ class FirestoreRepoImpl @Inject constructor(private val firestore: FirebaseFires
         var categoryList: MutableList<Recipe> = emptyList<Recipe>().toMutableList()
         recipeCollectionRef.whereEqualTo("category", category.lowercase())
             .addSnapshotListener { value, exception ->
-
+                if (value != null && value.isEmpty.not())
                 for (document in value!!.documents) {
+                    categoryList.clear()
+                    Log.d(TAG, "getDataByCategory: ${document.data}")
+
                     val recipe = document.toObject<Recipe>()
                     categoryList.add(recipe!!)
                 }
             }
-        return categoryList
+        return categoryList.toList()
     }
 }

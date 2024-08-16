@@ -11,6 +11,8 @@ import com.shivam.recipe.domain.firebaseRepository.FirestoreRepo
 import com.shivam.recipe.domain.firebaseRepository.StorageRepo
 import com.shivam.recipe.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -87,16 +89,15 @@ class AddRecipeViewModel@Inject constructor(
 
 
     // Function to save a  recipe
+    @OptIn(DelicateCoroutinesApi::class)
     fun saveRecipe() {
-
         var storageId :String? = null
-        var imageUrl:String? = null
-        viewModelScope.launch {
+        GlobalScope.launch {
             // Save the image to Firebase Storage
             storageId = storeImagetoCloudStorage(storageId)
             // if we have the storageId of image we will uplaod the task to fireStore
             storageId?.let {
-                imageUrl = storageRepo.getRecipeImageUrl(storageId!!)
+               val  imageUrl = storageRepo.getRecipeImageUrl(storageId!!)
                 saveDataToFireStore(storageId,imageUrl)
             }
         }
